@@ -1,1 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>AEGIS Avionics Flight Control System</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b1220;
+      color: #e8eef7;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f1c33, #162c4f);
+      padding: 70px 20px;
+      text-align: center;
+      border-bottom: 3px solid #2ea8ff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      max-width: 760px;
+      margin: 18px auto 0;
+      color: #b9c8dc;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      background: #111a2c;
+      padding: 14px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid #263b59;
+    }
+
+    nav a {
+      color: #8ed1ff;
+      margin: 0 14px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px 70px;
+    }
+
+    section {
+      background: #111a2c;
+      margin-bottom: 28px;
+      padding: 30px;
+      border-radius: 14px;
+      border: 1px solid #263b59;
+    }
+
+    h2 {
+      color: #63c0ff;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: #b7dcf7;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 14px;
+      background: #183a5b;
+      border: 1px solid #2ea8ff;
+      border-radius: 999px;
+      color: #b9e3ff;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #0c1525;
+      border: 1px solid #263b59;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th,
+    td {
+      border: 1px solid #314968;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #18304d;
+      color: #bde4ff;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      border: 1px solid #314968;
+    }
+
+    .button {
+      display: inline-block;
+      background: #238dd1;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 6px 8px 6px 0;
+    }
+
+    .button:hover {
+      background: #39aaf0;
+    }
+
+    code {
+      color: #8ed1ff;
+    }
+
+    footer {
+      background: #09101c;
+      text-align: center;
+      padding: 26px;
+      color: #8192a9;
+      border-top: 1px solid #263b59;
+    }
+
+    @media (max-width: 650px) {
+      header h1 {
+        font-size: 2.1rem;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 6px 8px;
+      }
+
+      section {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>AEGIS Avionics Flight Control System</h1>
+
+    <p>
+      A FreeRTOS-based ESP32-S3 avionics simulation demonstrating
+      deterministic task scheduling, GPIO interrupt handling,
+      synchronization, timing analysis, and system health monitoring.
+    </p>
+
+    <span class="hero-tag">
+      EEL 4775 Real-Time Systems Final Capstone
+    </span>
+  </header>
+
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#timing">Timing</a>
+    <a href="#hazards">Hazards</a>
+    <a href="#demo">Demo</a>
+  </nav>
+
+  <main>
+
+    <section id="overview">
+      <h2>Project Overview</h2>
+
+      <p>
+        AEGIS is a simulated avionics flight-control platform designed to
+        demonstrate real-time embedded-system concepts using FreeRTOS.
+        The application combines periodic avionics tasks with an
+        interrupt-driven emergency-response path.
+      </p>
+
+      <p>
+        The project was tailored toward embedded firmware and
+        safety-critical systems roles. Its design emphasizes measured timing,
+        clear task priorities, rapid interrupt response, and system
+        observability.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Platform</h3>
+          <p>ESP32-S3 running FreeRTOS in Wokwi.</p>
+        </div>
+
+        <div class="card">
+          <h3>Scheduling</h3>
+          <p>Fixed-priority periodic real-time tasks.</p>
+        </div>
+
+        <div class="card">
+          <h3>Interrupt Path</h3>
+          <p>GPIO ISR with semaphore and direct notification wake-up.</p>
+        </div>
+
+        <div class="card">
+          <h3>Monitoring</h3>
+          <p>Heartbeat, WCET, and ISR-latency reporting.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2>System Architecture</h2>
+
+      <p>
+        A cockpit input generates a GPIO interrupt. The ISR records timing
+        information and activates bottom-half tasks using two FreeRTOS
+        synchronization mechanisms.
+      </p>
+
+      <img
+        src="architecture.svg"
+        alt="AEGIS avionics system architecture diagram"
+      />
+    </section>
+
+    <section id="tasks">
+      <h2>Task Schedule</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Period</th>
+            <th>Priority</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Attitude Sensor</td>
+            <td>10 ms</td>
+            <td>15</td>
+            <td>Simulates aircraft orientation sampling.</td>
+          </tr>
+
+          <tr>
+            <td>Flight Controller</td>
+            <td>20 ms</td>
+            <td>10</td>
+            <td>Performs flight-control computations.</td>
+          </tr>
+
+          <tr>
+            <td>Telemetry</td>
+            <td>50 ms</td>
+            <td>5</td>
+            <td>Simulates avionics data transmission.</td>
+          </tr>
+
+          <tr>
+            <td>Health Monitor</td>
+            <td>100 ms</td>
+            <td>2</td>
+            <td>Reports heartbeat and timing evidence.</td>
+          </tr>
+
+          <tr>
+            <td>Emergency Response</td>
+            <td>Event driven</td>
+            <td>12</td>
+            <td>Responds to cockpit interrupt events.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Full WCET evidence is available in
+        <a href="task-table.md">task-table.md</a>.
+      </p>
+    </section>
+
+    <section id="timing">
+      <h2>Timing Evidence</h2>
+
+      <p>
+        The Health Monitor reports each periodic task's heartbeat count and
+        measured worst-case execution time. These values provide evidence
+        that the tasks execute at their intended rates.
+      </p>
+
+      <img
+        src="assets/health-report.png"
+        alt="AEGIS health monitor and WCET output"
+      />
+
+      <p>
+        Current measured total utilization is approximately
+        <strong>80.16%</strong> in the Wokwi simulator.
+      </p>
+    </section>
+
+    <section id="hazards">
+      <h2>Hazard Analysis</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Delayed Response</h3>
+          <p>
+            A critical interrupt may be delayed by CPU load or an incorrect
+            ISR scheduling decision.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Lost Commands</h3>
+          <p>
+            A binary semaphore may combine repeated events before the handler
+            consumes them.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>CPU Overload</h3>
+          <p>
+            Excessive execution time may increase latency or cause deadline
+            misses.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        The full analysis and standard mapping are available in
+        <a href="hazard-analysis.md">hazard-analysis.md</a>.
+      </p>
+    </section>
+
+    <section id="demo">
+      <h2>Demo and Source Code</h2>
+
+      <p>
+        The final demo will show system startup, periodic task execution,
+        interrupt response, timing evidence, and the induced failure test.
+      </p>
+
+      <a class="button" href="#" target="_blank">
+        Open Wokwi Project
+      </a>
+
+      <a class="button" href="../firmware/main.cpp">
+        View Firmware
+      </a>
+
+      <a class="button" href="../README.md">
+        Read Full README
+      </a>
+    </section>
+
+  </main>
+
+  <footer>
+    AEGIS Avionics Flight Control System · EEL 4775 · Summer 2026
+  </footer>
+
+</body>
+</html>
