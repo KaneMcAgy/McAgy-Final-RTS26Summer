@@ -1,1 +1,108 @@
 
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720">
+
+  <rect width="1100" height="720" fill="#f4f7fb"></rect>
+
+  <text x="550" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#172033">
+    AEGIS Avionics System Architecture
+  </text>
+
+  <!-- Cockpit Input -->
+  <rect x="70" y="120" width="220" height="90" rx="12" fill="#ffffff" stroke="#2c6e9b" stroke-width="3"></rect>
+  <text x="180" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="bold" fill="#172033">
+    Cockpit Button
+  </text>
+  <text x="180" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">
+    GPIO 18 Input
+  </text>
+
+  <!-- ISR -->
+  <rect x="420" y="110" width="260" height="110" rx="12" fill="#ffffff" stroke="#2c6e9b" stroke-width="3"></rect>
+  <text x="550" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#172033">
+    GPIO Interrupt Service Routine
+  </text>
+  <text x="550" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">
+    Timestamp event and wake tasks
+  </text>
+
+  <!-- Semaphore Handler -->
+  <rect x="780" y="80" width="250" height="110" rx="12" fill="#ffffff" stroke="#2c6e9b" stroke-width="3"></rect>
+  <text x="905" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="bold" fill="#172033">
+    Command Handler
+  </text>
+  <text x="905" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">
+    Binary Semaphore
+  </text>
+
+  <!-- Emergency Handler -->
+  <rect x="780" y="230" width="250" height="110" rx="12" fill="#ffffff" stroke="#2c6e9b" stroke-width="3"></rect>
+  <text x="905" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" font-weight="bold" fill="#172033">
+    Emergency Response
+  </text>
+  <text x="905" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#334155">
+    Direct Task Notification
+  </text>
+
+  <!-- Periodic Tasks Group -->
+  <rect x="95" y="410" width="910" height="190" rx="14" fill="#eaf2f8" stroke="#5f7f95" stroke-width="2"></rect>
+
+  <text x="550" y="445" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="bold" fill="#172033">
+    Periodic Avionics Tasks
+  </text>
+
+  <rect x="130" y="480" width="190" height="80" rx="10" fill="#ffffff" stroke="#5f7f95" stroke-width="2"></rect>
+  <text x="225" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#172033">
+    Attitude Sensor
+  </text>
+  <text x="225" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#334155">
+    10 ms
+  </text>
+
+  <rect x="350" y="480" width="190" height="80" rx="10" fill="#ffffff" stroke="#5f7f95" stroke-width="2"></rect>
+  <text x="445" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#172033">
+    Flight Control
+  </text>
+  <text x="445" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#334155">
+    20 ms
+  </text>
+
+  <rect x="570" y="480" width="190" height="80" rx="10" fill="#ffffff" stroke="#5f7f95" stroke-width="2"></rect>
+  <text x="665" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#172033">
+    Telemetry
+  </text>
+  <text x="665" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#334155">
+    50 ms
+  </text>
+
+  <rect x="790" y="480" width="180" height="80" rx="10" fill="#ffffff" stroke="#5f7f95" stroke-width="2"></rect>
+  <text x="880" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#172033">
+    Health Monitor
+  </text>
+  <text x="880" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#334155">
+    100 ms
+  </text>
+
+  <!-- Arrows -->
+  <line x1="290" y1="165" x2="420" y2="165" stroke="#172033" stroke-width="4"></line>
+
+  <polygon points="420,165 405,157 405,173" fill="#172033"></polygon>
+
+  <line x1="680" y1="145" x2="780" y2="135" stroke="#172033" stroke-width="4"></line>
+
+  <polygon points="780,135 764,128 766,145" fill="#172033"></polygon>
+
+  <line x1="680" y1="185" x2="780" y2="285" stroke="#172033" stroke-width="4"></line>
+
+  <polygon points="780,285 762,280 774,267" fill="#172033"></polygon>
+
+  <line x1="550" y1="220" x2="550" y2="410" stroke="#5f7f95" stroke-width="3" stroke-dasharray="8 8"></line>
+
+  <text x="575" y="325" font-family="Arial, sans-serif" font-size="16" fill="#334155">
+    Shared FreeRTOS scheduler
+  </text>
+
+  <text x="550" y="665" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#475569">
+    Health Monitor records heartbeat counts, WCET, and ISR response latency.
+  </text>
+
+</svg>
